@@ -5,7 +5,7 @@ exports.twitter = {
   access_token_secret: "L7BuXaHMo3pZH9TXeomRJ9IlwjGUvUCDLLAq0noQJmmxV"
 };
 
-console.log("This works");
+console.log("Keys.js works and exporting twitter information");
 
  
 

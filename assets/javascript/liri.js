@@ -8,7 +8,6 @@ var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 
 // ---Function ---
-
 // Can use function declaration or expression
 var myTweets = function(newTweet) {
   var client = new Twitter(apiKeys.twitter);
@@ -42,35 +41,38 @@ var myTweets = function(newTweet) {
   }
 }
 var mySong = function(songRequest) {
-  var Spotify = new Spotify ({
+  Spotify = new Spotify ({
     id: "efaa22009ac04c47bc4de7a6d272c8e2",
     secret: "456cc28a892642ad853a5f907031aaa1"
-  });
-  var songName = "";
-  if(process.argv.length > 3) {
-    for (var i = 3; i < process.argv.length; i++) {
-      if( i > 3 && i < process.argv.length) {
-        songName = songName + '+' + (process.argv[i])
-      } else {
-        songName += process.argv[i];
-      }
-    }
-
-    spotify
-      .request("https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx")
-      .then(function(data) {
-        console.log(data);
-        console.log("==================================================");
-        console.log('Artist: ' + data.album.artists[0].name);
-        console.log('Song name: ' + data.name);
-        console.log("Preview link: " + data.preview_url);
-        console.log("Album: " + data.album.name);
-        console.log("==================================================")
-      })
-      .catch(function(err) {
-        console.error("Error occurred: " + err);
-      });
+  })
+  if(songRequest) {
+    console.log("This song is working " + songRequest)
   }
+
+  // var songName = "";
+  // if(process.argv.length > 3) {
+  //   for (var i = 3; i < process.argv.length; i++) {
+  //     if( i > 3 && i < process.argv.length) {
+  //       songName = songName + '+' + (process.argv[i])
+  //     } else {
+  //       songName += process.argv[i];
+  //     }
+  //   }
+  //   Spotify
+  //     .request("https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx")
+  //     .then(function(data) {
+  //       console.log(data);
+  //       console.log("==================================================");
+  //       console.log('Artist: ' + data.album.artists[0].name);
+  //       console.log('Song name: ' + data.name);
+  //       console.log("Preview link: " + data.preview_url);
+  //       console.log("Album: " + data.album.name);
+  //       console.log("==================================================")
+  //     })
+  //     .catch(function(err) {
+  //       console.error("Error occurred: " + err);
+  //     });
+  // }
   
 
 }
@@ -119,7 +121,7 @@ var liriMagic = function(mediaType, content) {
       break;
       // default is else statement
     default:
-      console.log("I like Pepsi over Coke");
+      console.log("Console.log switch case works for default");
       // text = "LIRI has no idea what you are doing?";
       break;
   }
