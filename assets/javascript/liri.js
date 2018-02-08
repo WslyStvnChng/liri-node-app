@@ -1,63 +1,60 @@
-// Research dotenv!!
 // require('dotenv').config();
-
 var apiKeys = require("./keys.js");
-var Twitter = require('twitter');
-var Spotify = require('node-spotify-api');
-var request = require('request');
-var fs = require('fs');
+var Twitter = require("twitter");
+var Spotify = require("node-spotify-api");
+var request = require("request");
+var fs = require("fs");
 
-// ---Function ---
-// Twitttter ---------------------------------------
+// Twitttter
 var myTweets = function(newTweet) {
   var client = new Twitter(apiKeys.twitter);
-    console.log("tweets are fun");
+  // console.log("tweets are fun");
   var params = { screen_name: "chengman303", count: 20 };
-  
-  if(newTweet) {
-    // do this if user provides new tweet
-    console.log("Tweet this " + newTweet);
-  } else {
 
+  if (newTweet) {
+    // do this if user provides new tweet
+    // console.log("Tweet this " + newTweet);
+  } else {
     // else print out 20 latest tweets
-      client.get("statuses/user_timeline", params, function(
+    client.get("statuses/user_timeline", params, function(
       error,
       tweets,
       response
     ) {
       if (!error) {
-        var tweetCount = (tweets.length >= 20) ? 20 : tweets.length;
-        
-        console.log(tweets);
-        // 
+        var tweetCount = tweets.length >= 20 ? 20 : tweets.length;
+        // console.log(tweets);
+        //
         for (var i = 0; i < tweetCount; i++) {
-            console.log(tweets[i].text);
-            console.log("------------------------------------------------");
-            console.log("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-        };
-      };
+          console.log(tweets[i].text);
+          console.log("------------------------------------------------");
+          // console.log("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+        }
+      }
     });
   }
-}
+};
+
+// Spotify
 var mySong = function(songRequest) {
-  spotify = new Spotify ({
+  spotify = new Spotify({
     id: "efaa22009ac04c47bc4de7a6d272c8e2",
     secret: "456cc28a892642ad853a5f907031aaa1"
-  })
+  });
   // Default if no song is entered
   if (!songRequest) {
     songRequest = "That's What I Like";
   }
-  spotify.search({ type: 'track', query: songRequest }, function(err, data) {
-    if ( err ) {
-        return console.log('Error occurred: ' + err);
+  spotify.search({ type: "track", query: songRequest }, function(err, data) {
+    if (err) {
+      return console.log("Error occurred: " + err);
     }
-    // console.log(data.tracks.items[0].album.artists[0]);
+    console.log(data.tracks.items[0].album.artists[0]);
     // Artist
 
     console.log("Song Name: " + data.tracks.items[0].name);
     console.log("------------------------------------------------");
- 
+
     // // Song Name
 
     console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name);
@@ -73,11 +70,13 @@ var mySong = function(songRequest) {
     // Album Name
   });
 };
+
+// IMBD 
 var myMovie = function(selectMovie) {
-  // Default movie 
+  // Default movie
   if (!selectMovie) {
-    selectMovie = "Mr. Nobody";
-  };
+    selectMovie = "Flubber";
+  }
   // console.log("my movie is the best");
   request(
     "http://www.omdbapi.com/?t=" +
@@ -130,20 +129,24 @@ var myMovie = function(selectMovie) {
           console.log(
             "-------------------------------------------------------"
           );
-        };
-      };
-    });
+        }
+      }
+    }
+  );
 };
 
+// Request
 var myRequest = function(hola) {
   // console.log("my request....");
+  // I nested my random.txt --> 
   fs.readFile("./../../random.txt", "utf8", function(err, data) {
-    if(err) {
+    if (err) {
       return console.log(err);
-    } ;
+    }
+    // Will split each data with a " , "
     var dataArr = data.split(",");
-        liriMagic(dataArr[0], dataArr[1]);
-  })
+    liriMagic(dataArr[0], dataArr[1]);
+  });
 };
 
 var liriMagic = function(mediaType, content) {
@@ -153,36 +156,36 @@ var liriMagic = function(mediaType, content) {
   switch (mediaType) {
     //First if / else statement like...
     case "my-tweets":
-    myTweets(content);
+      myTweets(content);
       // console.log("tweeeet tweeet");
       break; //exit the switch case
 
     case "spotify-this-song":
-    mySong(content);
+      mySong(content);
       // console.log("Bruno Mars is the best");
       break;
-      
+
     case "movie-this":
-    myMovie(content);
+      myMovie(content);
       // console.log("Where's Waldo");
       break;
 
     case "do-what-it-says":
-    myRequest(content);
+      myRequest(content);
       // console.log("Simon says green");
       break;
-      // default is else statement
+    // default is else statement
     default:
       console.log("Console.log switch case works for default");
       // text = "LIRI has no idea what you are doing?";
       break;
-  };
+  }
 
   // Bonus
- 	// below is how we log our commands to the log.txt file:
-	var newCommand = process.argv[2];
+  // below is how we log our commands to the log.txt file:
+  var newCommand = process.argv[2];
 
-	fs.appendFile("./../../log.txt", newCommand, function(err) {
+  fs.appendFile("./../../log.txt", newCommand, function(err) {
     if (err) {
       console.log(err);
     }
@@ -190,8 +193,8 @@ var liriMagic = function(mediaType, content) {
       newCommand = newCommand + ",'" + process.argv[3] + "',";
     }
   });
-}
+};
 
 // Main Process
-// Calling liriMagic upholding two arguments 
+// Calling liriMagic upholding two arguments
 liriMagic(process.argv[2], process.argv[3]);
