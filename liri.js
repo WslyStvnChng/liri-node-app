@@ -139,7 +139,7 @@ var myMovie = function(selectMovie) {
 var myRequest = function(hola) {
   // console.log("my request....");
   // I nested my random.txt --> 
-  fs.readFile("./../../random.txt", "utf8", function(err, data) {
+  fs.readFile("random.txt", "utf8", function(err, data) {
     if (err) {
       return console.log(err);
     }
@@ -176,7 +176,7 @@ var liriMagic = function(mediaType, content) {
       break;
     // default is else statement
     default:
-      console.log("Console.log switch case works for default");
+      console.log("Try running liri.js my-tweets OR spotify-this-song, etc");
       // text = "LIRI has no idea what you are doing?";
       break;
   }
@@ -185,7 +185,7 @@ var liriMagic = function(mediaType, content) {
   // below is how we log our commands to the log.txt file:
   var newCommand = process.argv[2];
 
-  fs.appendFile("./../../log.txt", newCommand, function(err) {
+  fs.appendFile("log.txt", newCommand, function(err) {
     if (err) {
       console.log(err);
     }
